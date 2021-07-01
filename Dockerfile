@@ -27,7 +27,9 @@ RUN apt install -y \
   jq \
   python3.8 \
   python3-pip \
-  mysql-client
+  mysql-client \
+  ssh \
+  vim
 
 # Use python3.8 as default
 RUN ln -s /usr/bin/python3.8 /usr/bin/python
