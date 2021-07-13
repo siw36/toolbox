@@ -13,8 +13,9 @@ USER 0
 
 WORKDIR /tmp
 
-# Build chache
-RUN apt update
+# Build cache and upgrade OS
+RUN apt update && \
+  apt upgrade -y
 
 # Install repo packages
 RUN apt install -y \
@@ -29,7 +30,9 @@ RUN apt install -y \
   python3-pip \
   mysql-client \
   ssh \
-  vim
+  vim \
+  tar \
+  gzip
 
 # Use python3.8 as default
 RUN ln -s /usr/bin/python3.8 /usr/bin/python
@@ -41,7 +44,9 @@ RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -
   apt-get install -y mongodb-org-shell
 
 # Install openshift cli
-ADD https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz /usr/bin/
+RUN wget -q https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz -P /tmp/ && \
+  tar -xzf /tmp/openshift-client-linux.tar.gz -C /usr/bin/ && \
+  rm -rf /tmp/openshift-client-linux.tar.gz
 
 # Install azure cli
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
