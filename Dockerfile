@@ -32,7 +32,8 @@ RUN apt install -y \
   ssh \
   vim \
   tar \
-  gzip
+  gzip \
+  openjdk-11-jre-headless
 
 # Use python3.8 as default
 RUN ln -s /usr/bin/python3.8 /usr/bin/python
