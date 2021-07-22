@@ -33,7 +33,10 @@ RUN apt install -y \
   vim \
   tar \
   gzip \
-  openjdk-11-jre-headless
+  openjdk-11-jre-headless \
+  git \
+  rsync \
+  iputils-ping
 
 # Use python3.8 as default
 RUN ln -s /usr/bin/python3.8 /usr/bin/python
