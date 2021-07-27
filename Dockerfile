@@ -18,7 +18,8 @@ RUN apt update && \
   apt upgrade -y
 
 # Install repo packages
-RUN apt install -y \
+RUN apt update && \
+  apt install -y \
   wget \
   ca-certificates \
   apt-transport-https \
