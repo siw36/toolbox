@@ -1,1 +1,2 @@
 packaging
+sendgrid==1.6.22
