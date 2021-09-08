@@ -1,2 +1,3 @@
 packaging
 sendgrid==1.6.22
+netaddr
