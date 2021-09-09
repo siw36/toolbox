@@ -1,6 +1,8 @@
 # ansible-development
 Ansible container with various tools
 
+[![Docker Image CI](https://github.com/siw36/ansible-development/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/siw36/ansible-development/actions/workflows/docker-image.yml)
+
 The available Ansible version can be found here: https://pypi.org/project/ansible-core/#description
 
 ### Usage
