@@ -27,3 +27,12 @@ Example: `CODE=${HOME}/Code`
 docker stop <container id>
 ./run.sh
 ```
+
+#### Shell Alias (example)
+```bash
+# Run
+alias ansibles='/<path to this repo>/ansible-development/run.sh'
+
+# Connect
+alias ansiblec='/<path to this repo>/ansible-development/connect.sh'
+```
