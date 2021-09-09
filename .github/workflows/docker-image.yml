@@ -28,7 +28,12 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: registry.harbor.replicas.io/library/bf-server-frontend:latest
+          tags: registry.harbor.replicas.io/library/ansible-development:latest
+          build-args: |
+            USER_ID=501
+            USER_NAME=siw36
+            ANSIBLE_VERSION="2.11.2"
+            
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
