@@ -67,13 +67,10 @@ ENV HOME=/home/$USER_NAME \
 
 WORKDIR /home/$USER_NAME
 
-# Install ansible
-RUN pip install ansible-core==${ANSIBLE_VERSION} ansible
-
 # Install pip packages
 COPY requirements.txt .
-RUN pip install -r https://raw.githubusercontent.com/ansible-collections/azure/dev/requirements-azure.txt
 RUN pip install -r requirements.txt
+RUN pip install -r https://raw.githubusercontent.com/ansible-collections/azure/dev/requirements-azure.txt
 
 # Install Ansible collections
 COPY requirements.yml .
