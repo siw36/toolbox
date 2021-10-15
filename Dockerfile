@@ -67,6 +67,11 @@ ENV HOME=/home/$USER_NAME \
 
 WORKDIR /home/$USER_NAME
 
+# Prepare SSH directory
+RUN mkdir -p /home/$USER_NAME/.ssh && \
+  chown $USER_ID:$USER_ID /home/$USER_NAME/.ssh && \
+  chmod 700 /home/$USER_NAME/.ssh
+
 # Install pip packages
 COPY requirements.txt .
 RUN pip install -r requirements.txt
