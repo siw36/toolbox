@@ -61,7 +61,7 @@ RUN groupadd -r -g ${USER_ID} ${USER_NAME} && \
   useradd -l -u ${USER_ID} -g ${USER_ID} -s /bin/bash ${USER_NAME}
 
 # bashrc
-COPY .bashrc .
+COPY .bashrc /home/$USER_NAME/.bashrc
 RUN chown $USER_NAME:$USER_NAME /home/$USER_NAME/.bashrc && \
   chmod 600 /home/$USER_NAME/.bashrc
 
