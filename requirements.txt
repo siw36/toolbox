@@ -1,4 +1,4 @@
-ansible-core==2.11.2
+ansible-core==2.11.6
 ansible
 packaging
 sendgrid==1.6.22
