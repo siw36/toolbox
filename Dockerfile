@@ -60,6 +60,11 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 RUN groupadd -r -g ${USER_ID} ${USER_NAME} && \
   useradd -l -u ${USER_ID} -g ${USER_ID} -s /bin/bash ${USER_NAME}
 
+# bashrc
+COPY .bashrc /home/${USER_NAME}/.bashrc
+RUN chown -R ${USER_ID}:${USER_ID} /home/${USER_NAME} && \
+  chmod 600 /home/${USER_NAME}/.bashrc
+
 # Switch to current user
 USER $USER_ID
 ENV HOME=/home/$USER_NAME \
