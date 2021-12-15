@@ -81,7 +81,8 @@ RUN mkdir -p /home/$USER_NAME/.ssh && \
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 RUN pip install -r https://raw.githubusercontent.com/ansible-collections/azure/dev/requirements-azure.txt
-RUN pip install --upgrade requests
+RUN pip install cryptography==3.3
+RUN pip install requests~=2.25.1
 
 # Install Ansible collections
 COPY requirements.yml .
