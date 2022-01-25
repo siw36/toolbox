@@ -7,7 +7,7 @@ The available Ansible version can be found here: https://pypi.org/project/ansibl
 
 ### Usage
 
-Not that the following examples use Lima as local container management, since Docker is no longer free for professional usage. https://github.com/lima-vm/lima
+Note that the following examples use Lima as local container management, since Docker is no longer free for professional usage. https://github.com/lima-vm/lima
 
 #### Build
 ```bash
@@ -28,7 +28,6 @@ Example: `CODE=${HOME}/Code`
 
 #### Restart with new version
 ```bash
-docker stop <container id>
 ./lima_run.sh
 ```
 
