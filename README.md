@@ -41,4 +41,7 @@ alias ansiblec='/<path to this repo>/ansible-development/lima_connect.sh'
 
 # Use Lima as Docker
 alias docker='lima nerdctl $@'
+
+# Make ansible-vault from the container available on native shell
+alias ansible-vault='/Users/siw36/code/ansible-development/ansible-vault.sh $@'
 ```
