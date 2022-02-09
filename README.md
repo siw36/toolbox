@@ -44,4 +44,7 @@ alias docker='lima nerdctl $@'
 
 # Make ansible-vault from the container available on native shell
 alias ansible-vault='/<path to this repo>/ansible-development/ansible-vault.sh $@'
+
+# Make ansible-playbook from the container available on native shell
+alias ansible-playbook='/<path to this repo>/ansible-development/ansible-playbook.sh $@'
 ```
