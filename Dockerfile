@@ -37,7 +37,8 @@ RUN apt update && \
   openjdk-11-jre-headless \
   git \
   rsync \
-  iputils-ping
+  iputils-ping \
+  dnsutils
 
 # Use python3.8 as default
 RUN ln -s /usr/bin/python3.8 /usr/bin/python
@@ -80,11 +81,13 @@ RUN mkdir -p /home/$USER_NAME/.ssh && \
 # Install pip packages
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-RUN pip install -r https://raw.githubusercontent.com/ansible-collections/azure/dev/requirements-azure.txt
 
 # Install Ansible collections
 COPY requirements.yml .
 RUN ansible-galaxy install -r requirements.yml
+
+# Install azure collection requirements
+RUN pip install -r /home/$USER_NAME/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
 
 #COPY ansible.cfg .
 

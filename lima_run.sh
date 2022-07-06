@@ -2,7 +2,7 @@
 # somehow cant use -rm and -d in the same command
 # so stop and delete is done manually
 
-CODE=${HOME}/Code
+CODE=${HOME}/code
 lima nerdctl stop ansible-development
 lima nerdctl rm ansible-development
 lima nerdctl run --detach --name ansible-development \

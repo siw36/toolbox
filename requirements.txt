@@ -1,7 +1,8 @@
-ansible-core==2.11.6
+ansible-core==2.13.0
 ansible
 packaging
 sendgrid==1.6.22
 netaddr
 hcloud
 pymongo
+dnspython

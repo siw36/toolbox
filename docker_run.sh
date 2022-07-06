@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-CODE=${HOME}/Code
+CODE=${HOME}/code
 docker run --rm --name ansible-development -d \
   -v ${CODE}:/home/${USER}/code \
   -v ${HOME}/.ssh:/home/${USER}/.ssh \
