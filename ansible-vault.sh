@@ -6,4 +6,4 @@
 # only relative path is supported
 NATIVE_PATH=$(pwd)
 CONTAINER_PATH=$(echo $NATIVE_PATH | sed 's/\/Users/\/home/g')
-lima nerdctl exec -it ansible-development ansible-vault $1 ${CONTAINER_PATH}/${2} $3
+lima nerdctl exec -it toolbox ansible-vault $1 ${CONTAINER_PATH}/${2} $3
