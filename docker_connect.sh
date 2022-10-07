@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker exec -it ansible-development bash
+docker exec -it toolbox bash

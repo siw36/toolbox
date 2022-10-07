@@ -5,9 +5,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 LABEL maintainer="rhh.klussmann@gmail.com"
 LABEL org.label-schema.build-date=$BUILD_DATE
-LABEL org.label-schema.name="ansible-development"
-LABEL org.label-schema.description="Ansible development container"
-LABEL org.label-schema.vcs-url="https://github.com/siw36/ansible-development"
+LABEL org.label-schema.name="toolbox"
+LABEL org.label-schema.description="DevOps toolbox container"
+LABEL org.label-schema.vcs-url="https://github.com/siw36/toolbox"
 
 USER 0
 
