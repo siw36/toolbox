@@ -1,3 +1,13 @@
+FROM docker.io/library/golang:latest AS builder
+
+RUN apt update && apt -y install libgpgme-dev golang-github-proglottis-gpgme-dev
+RUN cd $GOPATH && \
+  git clone -b release-4.11 https://github.com/openshift/oc.git /go/src/github.com/openshift/oc
+WORKDIR /go/src/github.com/openshift/oc
+RUN go build -v ./cmd/oc/
+
+
+
 FROM docker.io/library/ubuntu:focal
 
 ARG USER_ID USER_NAME GROUP_ID BULD_DATE ANSIBLE_VERSION ARCHITECTURE
@@ -39,7 +49,8 @@ RUN apt update && \
   git \
   rsync \
   iputils-ping \
-  dnsutils
+  dnsutils \
+  libgpgme-dev
 
 # Use python3.8 as default
 RUN ln -s /usr/bin/python3.8 /usr/bin/python
@@ -50,10 +61,8 @@ RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -
   apt-get update && \
   apt-get install -y mongodb-org-shell
 
-# Install openshift cli
-RUN wget -q https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz -P /tmp/ && \
-  tar -xzf /tmp/openshift-client-linux.tar.gz -C /usr/bin/ && \
-  rm -rf /tmp/openshift-client-linux.tar.gz
+# Copy openshift cli from builder
+COPY --from=builder /go/src/github.com/openshift/oc/oc /usr/bin/oc
 
 # Install velero cli
 RUN wget -q https://github.com/vmware-tanzu/velero/releases/download/v1.9.2/velero-v1.9.2-linux-${ARCHITECTURE}.tar.gz -P /tmp/ && \
