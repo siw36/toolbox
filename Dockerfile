@@ -1,7 +1,8 @@
 FROM docker.io/library/ubuntu:focal
 
-ARG USER_ID USER_NAME GROUP_ID BULD_DATE ANSIBLE_VERSION
+ARG USER_ID USER_NAME GROUP_ID BULD_DATE ANSIBLE_VERSION ARCHITECTURE
 ENV DEBIAN_FRONTEND=noninteractive
+ENV ARCHITECTURE=$ARCHITECTURE
 
 LABEL maintainer="rhh.klussmann@gmail.com"
 LABEL org.label-schema.build-date=$BUILD_DATE
@@ -53,6 +54,12 @@ RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -
 RUN wget -q https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz -P /tmp/ && \
   tar -xzf /tmp/openshift-client-linux.tar.gz -C /usr/bin/ && \
   rm -rf /tmp/openshift-client-linux.tar.gz
+
+# Install velero cli
+RUN wget -q https://github.com/vmware-tanzu/velero/releases/download/v1.9.2/velero-v1.9.2-linux-${ARCHITECTURE}.tar.gz -P /tmp/ && \
+  tar -xzf /tmp/velero-v1.9.2-linux-${ARCHITECTURE}.tar.gz -C /tmp/ && \
+  mv /tmp/velero-v1.9.2-linux-${ARCHITECTURE}/velero /usr/bin/velero && \
+  rm -rf /tmp/velero-v1.9.2-linux-${ARCHITECTURE}.tar.gz /tmp/velero-v1.9.2-linux-${ARCHITECTURE}
 
 # Install azure cli
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
