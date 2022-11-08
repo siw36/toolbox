@@ -70,12 +70,17 @@ RUN wget -q https://github.com/vmware-tanzu/velero/releases/download/v1.9.2/vele
   mv /tmp/velero-v1.9.2-linux-${ARCHITECTURE}/velero /usr/bin/velero && \
   rm -rf /tmp/velero-v1.9.2-linux-${ARCHITECTURE}.tar.gz /tmp/velero-v1.9.2-linux-${ARCHITECTURE}
 
-# Install azure cli
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
-
 # Prepare user and home directory
 RUN groupadd -r -g ${USER_ID} ${USER_NAME} && \
   useradd -l -u ${USER_ID} -g ${USER_ID} -s /bin/bash ${USER_NAME}
+
+# Install azure cli manually because there is no ARM64 deb package available
+RUN curl -L https://aka.ms/InstallAzureCli -so cli-install.sh && \
+  chmod +x ./cli-install.sh && \
+  sed -i -e "s/^_TTY/#&/;s/< $_TTY/#&/" ./cli-install.sh
+RUN echo "/home/${USER_NAME}/.local/lib/azure_cli\n/home/${USER_NAME}/.local/az_bin\nn\n" | ./cli-install.sh && \
+  mkdir -p /home/${USER_NAME}/.local/bin && \
+  ln -s /home/${USER_NAME}/.local/az_bin/az /home/${USER_NAME}/.local/bin/az
 
 # bashrc
 COPY .bashrc /home/${USER_NAME}/.bashrc
