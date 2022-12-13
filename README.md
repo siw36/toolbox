@@ -48,3 +48,9 @@ alias ansible-vault='/<path to this repo>/toolbox/ansible-vault.sh $@'
 # Make ansible-playbook from the container available on native shell
 alias ansible-playbook='/<path to this repo>/toolbox/ansible-playbook.sh $@'
 ```
+#### Using CLI tools from the container in your native shell
+```
+# Make velero from the container available on native shell
+# This works for any CLI tool
+alias velero="docker exec -it toolbox velero $@"
+```

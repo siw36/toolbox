@@ -8,5 +8,6 @@ lima nerdctl rm toolbox
 lima nerdctl run --detach --name toolbox \
   -v ${CODE}:/home/${USER}/code \
   -v ${HOME}/.ssh:/home/${USER}/.ssh \
+  -v ${HOME}/.kube:/home/${USER}/.kube \
   --user $UID:$UID \
   toolbox:latest
