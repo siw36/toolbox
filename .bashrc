@@ -2,7 +2,7 @@
 
 # Info
 echo "### ANSIBLE DEVELOPMENT CONTAINER"
-echo "https://github.com/siw36/ansible-development"
+echo "https://github.com/siw36/toolbox"
 echo "### USAGE"
 echo "Your code is mounted at /home/$(whoami)/code"
 echo "Your SSH keys are mounted at /home/$(whoami)/.ssh"
