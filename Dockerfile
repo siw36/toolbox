@@ -70,6 +70,12 @@ RUN wget -q https://github.com/vmware-tanzu/velero/releases/download/v1.9.2/vele
   mv /tmp/velero-v1.9.2-linux-${ARCHITECTURE}/velero /usr/bin/velero && \
   rm -rf /tmp/velero-v1.9.2-linux-${ARCHITECTURE}.tar.gz /tmp/velero-v1.9.2-linux-${ARCHITECTURE}
 
+# Install Helm
+RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+# Install Kustomize
+RUN cd /usr/local/bin && curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash && cd /tmp
+
 # Prepare user and home directory
 RUN groupadd -r -g ${USER_ID} ${USER_NAME} && \
   useradd -l -u ${USER_ID} -g ${USER_ID} -s /bin/bash ${USER_NAME}
