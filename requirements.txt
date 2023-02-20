@@ -6,3 +6,4 @@ netaddr
 hcloud
 pymongo
 dnspython
+ansible-builder
