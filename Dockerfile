@@ -8,9 +8,10 @@ RUN go build -v ./cmd/oc/
 
 
 
-FROM docker.io/library/ubuntu:focal
+FROM docker.io/library/ubuntu:jammy
 
 ARG USER_ID USER_NAME GROUP_ID BULD_DATE ANSIBLE_VERSION ARCHITECTURE
+ARG PYTHON_VERSION=python3.10
 ENV DEBIAN_FRONTEND=noninteractive
 ENV ARCHITECTURE=$ARCHITECTURE
 
@@ -38,7 +39,8 @@ RUN apt update && \
   gnupg \
   curl \
   jq \
-  python3.8 \
+  ${PYTHON_VERSION} \
+  ${PYTHON_VERSION}-venv \
   python3-pip \
   mysql-client \
   ssh \
@@ -50,16 +52,19 @@ RUN apt update && \
   rsync \
   iputils-ping \
   dnsutils \
-  libgpgme-dev
+  libgpgme-dev \
+  gnupg
 
-# Use python3.8 as default
-RUN ln -s /usr/bin/python3.8 /usr/bin/python
+# Use ${PYTHON_VERSION} as default
+RUN ln -s /usr/bin/${PYTHON_VERSION} /usr/bin/python
 
 # Install mongo shell
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
-  echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
-  apt-get update && \
-  apt-get install -y mongodb-org-shell
+RUN curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \
+  gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg \
+  --dearmor && \
+  echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list && \
+  apt update && \
+  apt install -y mongodb-org-shell
 
 # Copy openshift cli from builder
 COPY --from=builder /go/src/github.com/openshift/oc/oc /usr/bin/oc
@@ -80,13 +85,22 @@ RUN cd /usr/local/bin && curl -s "https://raw.githubusercontent.com/kubernetes-s
 RUN groupadd -r -g ${USER_ID} ${USER_NAME} && \
   useradd -l -u ${USER_ID} -g ${USER_ID} -s /bin/bash ${USER_NAME}
 
-# Install azure cli manually because there is no ARM64 deb package available
-RUN curl -L https://aka.ms/InstallAzureCli -so cli-install.sh && \
-  chmod +x ./cli-install.sh && \
-  sed -i -e "s/^_TTY/#&/;s/< $_TTY/#&/" ./cli-install.sh
-RUN echo "/home/${USER_NAME}/.local/lib/azure_cli\n/home/${USER_NAME}/.local/az_bin\nn\n" | ./cli-install.sh && \
-  mkdir -p /home/${USER_NAME}/.local/bin && \
-  ln -s /home/${USER_NAME}/.local/az_bin/az /home/${USER_NAME}/.local/bin/az
+# # Install azure cli manually because there is no ARM64 deb package available
+# RUN curl -L https://aka.ms/InstallAzureCli -so cli-install.sh && \
+#   chmod +x ./cli-install.sh && \
+#   sed -i -e "s/^_TTY/#&/;s/< $_TTY/#&/" ./cli-install.sh
+# RUN echo "/home/${USER_NAME}/.local/lib/azure_cli\n/home/${USER_NAME}/.local/az_bin\nn\n" | ./cli-install.sh && \
+#   mkdir -p /home/${USER_NAME}/.local/bin && \
+#   ln -s /home/${USER_NAME}/.local/az_bin/az /home/${USER_NAME}/.local/bin/az
+
+# Install Azure CLI using a virtual environment
+# This is needed because the Ansible Azure collection and AZ CLI have overlapping dependencies that are incompatible
+RUN mkdir -p /home/${USER_NAME}/.venv && \
+  /usr/bin/${PYTHON_VERSION} -m venv /home/${USER_NAME}/.venv/azure-cli-env && \
+  /home/${USER_NAME}/.venv/azure-cli-env/bin/python -m pip install --upgrade pip && \
+  /home/${USER_NAME}/.venv/azure-cli-env/bin/python -m pip install wheel && \
+  /home/${USER_NAME}/.venv/azure-cli-env/bin/python -m pip install azure-cli && \
+  ln -s /home/${USER_NAME}/.venv/azure-cli-env/bin/az /usr/bin/az
 
 # bashrc
 COPY .bashrc /home/${USER_NAME}/.bashrc

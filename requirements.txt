@@ -1,4 +1,4 @@
-ansible-core==2.13.0
+ansible-core==2.14.6
 ansible
 packaging
 sendgrid==1.6.22
@@ -7,3 +7,4 @@ hcloud
 pymongo
 dnspython
 ansible-builder
+ansible-lint

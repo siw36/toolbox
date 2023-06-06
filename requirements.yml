@@ -2,3 +2,17 @@
 collections:
 - azure.azcollection
 - hetzner.hcloud
+- awx.awx
+- ansible.netcommon
+- ansible.posix
+- ansible.utils
+- community.crypto
+- community.docker
+- community.mongodb
+- community.hashi_vault
+- community.mysql
+- community.postgresql
+- google.cloud
+- grafana.grafana
+- kubernetes.core
+- community.general
