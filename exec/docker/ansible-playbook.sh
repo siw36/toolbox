@@ -6,4 +6,4 @@
 # only relative path is supported
 NATIVE_PATH=$(pwd)
 CONTAINER_PATH=$(echo $NATIVE_PATH | sed 's/\/Users/\/home/g')
-docker exec -it toolbox ansible-playbook ${CONTAINER_PATH}/${1} $2 $3 $4 $5 $6 $7 $8 $9
+docker exec -w ${CONTAINER_PATH} -it toolbox ansible-playbook $@

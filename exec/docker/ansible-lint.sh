@@ -6,4 +6,4 @@
 # only relative path is supported
 NATIVE_PATH=$(pwd)
 CONTAINER_PATH=$(echo $NATIVE_PATH | sed 's/\/Users/\/home/g')
-docker exec -w ${CONTAINER_PATH} -it toolbox ansible-vault $@
+docker exec -w ${CONTAINER_PATH} -it toolbox ansible-lint $@
