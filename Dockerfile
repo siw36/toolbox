@@ -53,7 +53,8 @@ RUN apt update && \
   iputils-ping \
   dnsutils \
   libgpgme-dev \
-  gnupg
+  gnupg \
+  netcat
 
 # Use ${PYTHON_VERSION} as default
 RUN ln -s /usr/bin/${PYTHON_VERSION} /usr/bin/python
